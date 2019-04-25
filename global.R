@@ -16,13 +16,13 @@ library(plotly)
 
 ### TWITTER
 # Twitter Tokens and access
-token = "176595081-xCQcCKtvzf67pObQutqjEY215fWrmmJr9PIL0KDS"
-token_secret = "2iYbUOC1d7K3EVFM1KJF9nffcK6kNz9tWF8ZSFMzFA5HU"
+token = "x"
+token_secret = "x"
 
 # Twitter API Keys
-appname <-"MIS510-Umbrella"
-key = "vccjkMmxk3hcSAnRg3oleRBVK"
-secret = "mDO140G2qoPR1wI9b2PN75nfULzh78GP9HWEAfIaAtGh9JjYqf"
+appname <-"x"
+key = "x"
+secret = "x"
 
 twitter_token <- create_token(
   app = appname,
@@ -49,7 +49,7 @@ getTermMatrix <- memoise(function(city) {
 #    stop("Unknown book")
 
 rt <- search_tweets(q =  "rain OR weather OR snow OR sun OR storm",
-                      geocode = lookup_coords(city, apikey = 'AIzaSyAKH5Rb4GiK7KNnLDD5MwRIdPZte08Y9l0' ),
+                      geocode = lookup_coords(city, apikey = 'x' ),
                       include_rts = FALSE,
                       n = 500 #, retryonratelimit = TRUE
   )    
