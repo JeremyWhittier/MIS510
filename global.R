@@ -250,6 +250,52 @@ getGrape <- memoise(function(city) {
 
   print("End of Grape")
  
-    return(mean(syuzhet_emotion$syuzhet_emotion.df))
+    return(mean(syuzhet_emotion$syuzhet_emotion.df[syuzhet_emotion$syuzhet_emotion.df != 0]))
+})
+
+getPickle <- memoise(function(city) {
+  print('Got here')
+  # Careful not to let just any name slip in here; a
+  # malicious user could manipulate this value.
+  #  if (!(book %in% books))
+  #    stop("Unknown book")
+  
+  rt <- search_tweets(q =  "rain OR weather OR snow OR sun OR storm",
+                      geocode = lookup_coords(city, apikey = 'AIzaSyAKH5Rb4GiK7KNnLDD5MwRIdPZte08Y9l0' ),
+                      include_rts = FALSE,
+                      n = 500 #, retryonratelimit = TRUE
+  )    
+  
+  ##  Remove Links from text
+  rt$stripped_text <- gsub("http.*","",  rt$text)
+  rt$stripped_text <- iconv(rt$text, to = 'ASCII', from = 'UTF-8', sub="byte")
+  rt$stripped_text=str_replace_all(rt$stripped_text,"[^[:graph:]]", " ") 
+  rt$stripped_text <- gsub("https.*","", rt$stripped_text)
+  
+  # transform text to Lower
+  rt$stripped_text <- tolower(rt$stripped_text)
+  
+  # Remove Stop Words from text
+  #rt$no_stop_text <- rt(rt$stripped_text, stopwords())
+  
+  # Remove Mentions from text
+  rt$no_symbol_mentions <- gsub("\\B[@#]\\S+\\b", "", rt$stripped_text )
+  
+  # Remove Hashtags from text
+  rt$no_punc <- removePunctuation(rt$no_symbol_mentions)
+  
+  # Remove all Numbers
+  rt$no_numbers <- removeNumbers(rt$no_punc)
+  
+  rt$all_clean <- rt$no_numbers
+  
+  short_word.df <- as.vector(rt$all_clean)
+  
+  syuzhet_emotion.df <- get_sentiment(short_word.df, method = 'syuzhet')
+  syuzhet_emotion <- cbind(rt, syuzhet_emotion.df)
+
+  print("End of Grape")
+  
+  return(syuzhet_emotion)
 })
 
