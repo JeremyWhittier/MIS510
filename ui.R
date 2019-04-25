@@ -19,13 +19,15 @@ fluidPage(
       h2("Lets Score the Weather!"),
       h1(textOutput("plot3")),
       h2("General Word Cloud"),
-      plotOutput("plot1",width = 'auto')
+      plotOutput("plot1",width = '400px', height = '400px')
     ),
     
     # Show Word Cloud
     mainPanel(
 
-      h2("Word Cloud by Emotion"),
+      h2("Histogram time!"),
+      plotOutput("plot4"),
+      h2("Emotional Breakdown"),
       plotOutput("plot2",width = '800px', height = '800px')
 
     )
