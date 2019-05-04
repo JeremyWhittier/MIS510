@@ -1,0 +1,30 @@
+#!/bin/Rscript
+library(rtweet)
+# google_api <- AIzaSyCg_zj4MpWxGncrkV3IGn3hM_5sYq8qXew
+# Twitter Tokens and access
+token = ""
+token_secret = ""
+# Twitter API Keys
+appname <-""
+key = ""
+secret = ""
+
+twitter_token <- create_token(
+  app = appname,
+  consumer_key = key,
+  consumer_secret = secret,
+  access_token = token,
+  access_secret = token_secret
+)
+# https://rtweet.info/reference/lookup_coords.html
+storm_tweets <- search_tweets(q = "storm OR weather OR rain OR snow",
+                              n = 18000,
+                              lang = "en",
+                              include_rts = FALSE,
+                              retryonratelimit = TRUE,
+                              #geocode = lookup_coords("usa")
+                              #type = "popular"
+                              )
+ranat <- format(Sys.time(), "/collect/v2-%d%b%Y-%H%M")
+save_as_csv(storm_tweets, ranat, prepend_ids = TRUE, na = "",
+            fileEncoding = "UTF-8")
