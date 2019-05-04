@@ -1,0 +1,30 @@
+#!/bin/Rscript
+#
+library(rtweet)
+
+# Twitter Tokens and access
+token = ""
+token_secret = ""
+
+# Twitter API Keys
+appname <-""
+key = ""
+secret = ""
+
+twitter_token <- create_token(
+  app = appname,
+  consumer_key = key,
+  consumer_secret = secret,
+  access_token = token,
+  access_secret = token_secret
+  )
+
+storm_tweets <- search_tweets(q = "#Storm",
+                              n = 15000,
+                              lang = "en",
+                              include_rts = FALSE)
+
+ranat <- format(Sys.time(), "/collect/%d%b%Y-%H%M")
+
+save_as_csv(storm_tweets, ranat, prepend_ids = TRUE, na = "",
+             fileEncoding = "UTF-8")
